@@ -17,10 +17,6 @@ use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
 
 class TestCase extends Orchestra {
-    protected function setUp(): void {
-        parent::setUp();
-    }
-
     protected function getPackageProviders($app): array {
         return [
             ActionsServiceProvider::class,
