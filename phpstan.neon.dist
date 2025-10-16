@@ -1,0 +1,9 @@
+parameters:
+    paths:
+        - src
+        - tests/Stubs
+
+    level: 9
+
+    tmpDir: .phpstan.cache
+

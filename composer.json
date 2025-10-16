@@ -1,0 +1,61 @@
+{
+    "name": "devecommercepl/filament-translate-resource-labels",
+    "description": "Filament plugin for translating resource labels",
+    "homepage": "https://github.com/devEcommercePL/filament-translate-resource-labels",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.1",
+        "filament/filament": "^3.0",
+        "filament/forms": "^3.0",
+        "filament/tables": "^3.0",
+        "spatie/laravel-package-tools": "^1.15.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "nunomaduro/collision": "^8.1",
+        "nunomaduro/larastan": "^3.0",
+        "orchestra/testbench": "^10.6",
+        "pestphp/pest": "^4.1",
+        "pestphp/pest-plugin-laravel": "^4.0",
+        "pestphp/pest-plugin-livewire": "^4.0",
+        "pestphp/pest-plugin-type-coverage": "^4.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "DevEcommercePL\\FilamentTranslateResourceLabels\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DevEcommercePL\\FilamentTranslateResourceLabels\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
+        "test:lint": "pint --test",
+        "test:unit": "pest",
+        "test:coverage": "pest --coverage",
+        "test:types": "pest --type-coverage --memory-limit=2G",
+        "test:static": "phpstan analyse --memory-limit=2G",
+        "test": [
+            "@test:types",
+            "@test:static",
+            "@test:unit",
+            "@test:lint"
+        ],
+        "lint": "pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
