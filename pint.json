@@ -11,7 +11,7 @@
             "spacing": "one"
         },
         "new_expression_parentheses": {
-            "use_parentheses": false
+            "use_parentheses": true
         }
     }
 }
