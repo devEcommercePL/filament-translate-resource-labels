@@ -1,5 +1,7 @@
 APPLICATION_NAME ?= filament-translate-resource-labels
 
+.PHONY: build
+
 build:
 	docker build -f ./docker/Dockerfile --tag ${APPLICATION_NAME} .
 
