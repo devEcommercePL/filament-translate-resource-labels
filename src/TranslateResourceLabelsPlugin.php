@@ -76,19 +76,23 @@ class TranslateResourceLabelsPlugin implements Plugin {
     protected function configureField(): void {
         Field::macro('translateResourceLabel', function () {
             /** @phpstan-ignore method.notFound */
-            return $this->label(function (string $model, FormComponent $component) {
+            return $this->label(function (?string $model, FormComponent $component) {
                 /** @phpstan-ignore method.notFound */
                 $name = $component->getName();
 
+                $label = (string) str($name)
+                    ->afterLast('.')
+                    ->kebab()
+                    ->replace(['-', '_'], ' ')
+                    ->ucfirst();
+
                 /** @phpstan-ignore property.protected */
                 if ($component->shouldTranslateLabel) {
-                    $label = (string) str($name)
-                        ->afterLast('.')
-                        ->kebab()
-                        ->replace(['-', '_'], ' ')
-                        ->ucfirst();
-
                     return __($label);
+                }
+
+                if (!$model) {
+                    return $label;
                 }
 
                 $slug = Str::slug(get_model_label($model));
@@ -106,19 +110,23 @@ class TranslateResourceLabelsPlugin implements Plugin {
     protected function configureEntry(): void {
         Entry::macro('translateResourceLabel', function () {
             /** @phpstan-ignore method.notFound */
-            return $this->label(function (Model $record, InfolistComponent $component) {
+            return $this->label(function (?Model $record, InfolistComponent $component) {
                 /** @phpstan-ignore method.notFound */
                 $name = $component->getName();
 
+                $label = (string) str($name)
+                    ->before('.')
+                    ->kebab()
+                    ->replace(['-', '_'], ' ')
+                    ->ucfirst();
+
                 /** @phpstan-ignore property.protected */
                 if ($component->shouldTranslateLabel) {
-                    $label = (string) str($name)
-                        ->before('.')
-                        ->kebab()
-                        ->replace(['-', '_'], ' ')
-                        ->ucfirst();
-
                     return __($label);
+                }
+
+                if (!$record) {
+                    return $label;
                 }
 
                 $slug = Str::slug(get_model_label($record::class));
