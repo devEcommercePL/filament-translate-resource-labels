@@ -11,10 +11,9 @@ use Filament\Facades\Filament;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Panel;
+use Filament\Schemas\Schema;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
@@ -82,7 +81,7 @@ it('translates edit form field', function () {
 it('returns default label if no model assigned to form field', function () {
     $field = TextInput::make('name');
 
-    $field->container(Form::make(new class extends Component implements HasForms {
+    $field->container(Schema::make(new class extends Component implements HasForms {
         use InteractsWithForms;
     }));
 
@@ -134,7 +133,7 @@ it('translates infolist entry', function () {
 it('returns default label if no model assigned to infolist entry', function () {
     $entry = TextEntry::make('name');
 
-    $entry->container(Infolist::make(new class extends Component implements HasForms {
+    $entry->container(Schema::make(new class extends Component implements HasForms {
         use InteractsWithForms;
     }));
 

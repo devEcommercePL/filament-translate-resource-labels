@@ -58,7 +58,7 @@ You can bootstrap docker test environment and run the tests easily using the fol
 
 ```bash
 make build
-make test CMD="composer test"
+make run CMD="composer test"
 ```
 
 ## License

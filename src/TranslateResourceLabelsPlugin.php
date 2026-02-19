@@ -3,9 +3,7 @@
 namespace DevEcommercePL\FilamentTranslateResourceLabels;
 
 use Filament\Contracts\Plugin;
-use Filament\Forms\Components\Component as FormComponent;
 use Filament\Forms\Components\Field;
-use Filament\Infolists\Components\Component as InfolistComponent;
 use Filament\Infolists\Components\Entry;
 use Filament\Panel;
 use Filament\Tables\Columns\Column;
@@ -49,19 +47,25 @@ class TranslateResourceLabelsPlugin implements Plugin {
             return $this->label(function (Table $table, Column $column) {
                 $name = $column->getName();
 
+                $label = (string) str($name)
+                    ->beforeLast('.')
+                    ->afterLast('.')
+                    ->kebab()
+                    ->replace(['-', '_'], ' ')
+                    ->ucfirst();
+
                 /** @phpstan-ignore property.protected */
                 if ($column->shouldTranslateLabel) {
-                    $label = (string) str($name)
-                        ->beforeLast('.')
-                        ->afterLast('.')
-                        ->kebab()
-                        ->replace(['-', '_'], ' ')
-                        ->ucfirst();
-
                     return __($label);
                 }
 
-                $slug = Str::slug(get_model_label($table->getModel()));
+                $model = $table->getModel();
+
+                if (!$model) {
+                    return $label;
+                }
+
+                $slug = Str::slug(get_model_label($model));
 
                 return __("$slug." . $name);
             });
@@ -76,8 +80,7 @@ class TranslateResourceLabelsPlugin implements Plugin {
     protected function configureField(): void {
         Field::macro('translateResourceLabel', function () {
             /** @phpstan-ignore method.notFound */
-            return $this->label(function (?string $model, FormComponent $component) {
-                /** @phpstan-ignore method.notFound */
+            return $this->label(function (?string $model, Field $component) {
                 $name = $component->getName();
 
                 $label = (string) str($name)
@@ -95,6 +98,7 @@ class TranslateResourceLabelsPlugin implements Plugin {
                     return $label;
                 }
 
+                /** @var class-string<Model> $model */
                 $slug = Str::slug(get_model_label($model));
 
                 return __("$slug." . $name);
@@ -110,8 +114,7 @@ class TranslateResourceLabelsPlugin implements Plugin {
     protected function configureEntry(): void {
         Entry::macro('translateResourceLabel', function () {
             /** @phpstan-ignore method.notFound */
-            return $this->label(function (?Model $record, InfolistComponent $component) {
-                /** @phpstan-ignore method.notFound */
+            return $this->label(function (?Model $record, Entry $component) {
                 $name = $component->getName();
 
                 $label = (string) str($name)
@@ -147,19 +150,25 @@ class TranslateResourceLabelsPlugin implements Plugin {
             return $this->label(function (Table $table, Filter $filter) {
                 $name = $filter->getName();
 
+                $label = (string) str($name)
+                    ->beforeLast('.')
+                    ->afterLast('.')
+                    ->kebab()
+                    ->replace(['-', '_'], ' ')
+                    ->ucfirst();
+
                 /** @phpstan-ignore property.protected */
                 if ($filter->shouldTranslateLabel) {
-                    $label = (string) str($name)
-                        ->beforeLast('.')
-                        ->afterLast('.')
-                        ->kebab()
-                        ->replace(['-', '_'], ' ')
-                        ->ucfirst();
-
                     return __($label);
                 }
 
-                $slug = Str::slug(get_model_label($table->getModel()));
+                $model = $table->getModel();
+
+                if (!$model) {
+                    return $label;
+                }
+
+                $slug = Str::slug(get_model_label($model));
 
                 return __("$slug." . $name);
             });
